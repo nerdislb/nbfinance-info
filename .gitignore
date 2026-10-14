@@ -1,0 +1,14 @@
+verification/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+private-data/
+private-config/
+local-data/
