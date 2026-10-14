@@ -38,7 +38,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('GitHub Pages', visible)
         self.assertIn('IP addresses', visible)
         self.assertIn('security purposes', visible)
-        self.assertIn('Operator/contact details remain pending', visible)
+        self.assertIn('Operator identity and final application processing remain pending', visible)
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No authorisation callback is hosted here', visible)
         self.assertTrue(any(tag == 'a' and attrs.get('href') == 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' for tag, attrs in doc.elements))
@@ -53,7 +53,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No live banking service is offered here', visible)
         self.assertIn('not a spending allowance', visible)
-        self.assertIn('Operator/contact details remain pending', visible)
+        self.assertIn('Operator identity and final application processing remain pending', visible)
         self.assertFalse(any(tag in ['script', 'form', 'input', 'iframe'] for tag, _ in doc.elements))
 
     def test_every_page_has_safe_metadata_and_local_navigation(self):
@@ -76,20 +76,30 @@ class SiteTests(unittest.TestCase):
                         self.assertEqual(attrs.get('href'), 'styles.css')
                     if tag == 'a':
                         target = attrs.get('href', '')
-                        self.assertFalse(target.lower().startswith(('javascript:', 'data:', 'mailto:')))
-                        if target and not target.startswith(('https://', '#')):
+                        self.assertFalse(target.lower().startswith(('javascript:', 'data:')))
+                        if target.lower().startswith('mailto:'):
+                            self.assertEqual(target, 'mailto:security@nbsystems.dev')
+                        elif target and not target.startswith(('https://', '#')):
                             self.assertTrue((ROOT / target).is_file(), target)
 
-    def test_public_pages_have_no_email_bank_ids_or_private_key_material(self):
+    def test_public_pages_have_only_approved_contact_and_no_bank_ids_or_private_keys(self):
         import re
         for name in ['index.html', 'privacy.html', 'terms.html']:
             with self.subTest(page=name):
                 source = (ROOT / name).read_text()
-                self.assertIsNone(re.search(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', source))
+                self.assertEqual(set(re.findall(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', source)), {'security@nbsystems.dev'})
                 self.assertIsNone(re.search(r'\b[A-Z]{2}\d{2}[A-Z0-9]{11,30}\b', source))
                 self.assertIsNone(re.search(r'-{5}BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-{5}', source))
                 self.assertNotIn('/home/', source)
                 self.assertNotIn('accounts[].', source)
+
+    def test_approved_contact_is_visible_with_exact_mailto_on_every_page(self):
+        for name in ['index.html', 'privacy.html', 'terms.html']:
+            with self.subTest(page=name):
+                doc = Document()
+                doc.feed((ROOT / name).read_text())
+                self.assertIn('security@nbsystems.dev', ' '.join(doc.text))
+                self.assertTrue(any(tag == 'a' and attrs.get('href') == 'mailto:security@nbsystems.dev' for tag, attrs in doc.elements))
 
 if __name__ == '__main__':
     unittest.main()

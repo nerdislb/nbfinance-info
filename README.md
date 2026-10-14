@@ -6,13 +6,13 @@ The owner authorized this separate public repository and GitHub Pages site. The 
 
 ## Draft status
 
-The overview, privacy notice and usage notice are deliberately marked **draft / preparation only**. No personal operator/contact details have been approved for publication. They are not a final policy/terms package for live bank-data processing or completed Enable Banking registration.
+The overview, privacy notice and usage notice are deliberately marked **draft / preparation only**. The owner explicitly approved `security@nbsystems.dev` as the public privacy/security contact. No other operator identity or contact details have been approved for publication. These pages are not a final policy/terms package for live bank-data processing or completed Enable Banking registration; publishing the contact does not create or verify the mailbox.
 
 Use an approved GitHub handle/noreply identity for public commits; do not expose a private name/email through commit metadata. Do not publish banking information in issues, pull requests or comments.
 
 ## Static deployment
 
-GitHub Pages publishes the `main` branch root with `.nojekyll`. The content is plain HTML and CSS: no JavaScript, forms, cookies set by site code, external fonts, analytics, embeds or banking flow.
+GitHub Pages publishes the `main` branch root with `.nojekyll`. The content is plain HTML and CSS: no JavaScript, forms, cookies set by site code, external fonts, analytics, embeds or banking flow. Contact links open the visitor's email client for the explicitly approved address only.
 
 Expected page paths after deployment are the site root, `privacy.html` and `terms.html`. Actual HTTPS availability must be verified before claiming a live deployment. Do not use the information site as an OAuth redirect/callback or place any authorisation code in its query string.
 
