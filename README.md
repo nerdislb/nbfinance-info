@@ -6,7 +6,7 @@ The owner authorized this separate public repository and GitHub Pages site. The 
 
 ## Draft status
 
-The overview, privacy notice and usage notice are deliberately marked **draft / preparation only**. The owner explicitly approved `security@nbsystems.dev` as the public privacy/security contact. No other operator identity or contact details have been approved for publication. These pages are not a final policy/terms package for live bank-data processing or completed Enable Banking registration; publishing the contact does not create or verify the mailbox.
+The overview, privacy notice and usage notice are deliberately marked **draft / preparation only**. The owner explicitly approved **Bernhard Slatinsek** as the public operator name for this private household project and `security@nbsystems.dev` as the public privacy/security contact. No postal address, telephone number, additional contact or credentials are published. The remaining application-processing description still requires finalisation. These pages are not a final policy/terms package for live bank-data processing or completed Enable Banking registration; publishing the contact does not create or verify the mailbox.
 
 Use an approved GitHub handle/noreply identity for public commits; do not expose a private name/email through commit metadata. Do not publish banking information in issues, pull requests or comments.
 

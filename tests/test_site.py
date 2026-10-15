@@ -38,7 +38,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('GitHub Pages', visible)
         self.assertIn('IP addresses', visible)
         self.assertIn('security purposes', visible)
-        self.assertIn('Operator identity and final application processing remain pending', visible)
+        self.assertIn('Final application processing remains pending', visible)
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No authorisation callback is hosted here', visible)
         self.assertTrue(any(tag == 'a' and attrs.get('href') == 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' for tag, attrs in doc.elements))
@@ -53,7 +53,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No live banking service is offered here', visible)
         self.assertIn('not a spending allowance', visible)
-        self.assertIn('Operator identity and final application processing remain pending', visible)
+        self.assertIn('Final application processing remains pending', visible)
         self.assertFalse(any(tag in ['script', 'form', 'input', 'iframe'] for tag, _ in doc.elements))
 
     def test_every_page_has_safe_metadata_and_local_navigation(self):
@@ -92,6 +92,23 @@ class SiteTests(unittest.TestCase):
                 self.assertIsNone(re.search(r'-{5}BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-{5}', source))
                 self.assertNotIn('/home/', source)
                 self.assertNotIn('accounts[].', source)
+
+    def test_approved_operator_is_visible_on_every_page_without_finalising_drafts(self):
+        for name in ['index.html', 'privacy.html', 'terms.html']:
+            with self.subTest(page=name):
+                source = (ROOT / name).read_text()
+                doc = Document()
+                doc.feed(source)
+                visible = ' '.join(' '.join(doc.text).split())
+                self.assertEqual(visible.count('Bernhard Slatinsek'), 1)
+                self.assertIn('Operator', visible)
+                self.assertIn('Private household project', visible)
+                self.assertIn('Final application processing remains pending', visible)
+                self.assertIn('Do not use these drafts for live bank registration', visible)
+                self.assertNotIn('Operator identity and final application processing remain pending', source)
+                self.assertNotIn('Operator details are pending', source)
+                self.assertNotIn('operator identity still', source)
+                self.assertIn('security@nbsystems.dev', visible)
 
     def test_approved_contact_is_visible_with_exact_mailto_on_every_page(self):
         for name in ['index.html', 'privacy.html', 'terms.html']:
