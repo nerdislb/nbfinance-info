@@ -146,11 +146,14 @@ class SiteTests(unittest.TestCase):
     def test_contact_handling_is_separate_from_ephemeral_bank_results(self):
         text = self.visible('privacy.html')
         for required in ['Purelymail', 'Add Rabbit LLC', 'United States', 'US-East-1',
-                         'one month', 'sender', 'headers', 'Proposed correspondence procedure',
+                         'one month', 'sender', 'headers', 'Correspondence procedure',
+                         'regularly monitored by the operator', 'necessary records or a specific legal obligation',
                          'Article 6(1)(f)', 'Article 6(1)(c)', 'generally one month',
                          'household exemption is not a blanket exemption',
                          'any required processing terms and transfer safeguards remain adoption checks']:
             self.assertIn(required, text)
+        self.assertNotIn('Proposed correspondence procedure', text)
+        self.assertIn('The proposed response procedure', text)
 
     def test_usage_is_private_only_and_distinguishes_linking_from_api_authorisation(self):
         text = self.visible('terms.html')
