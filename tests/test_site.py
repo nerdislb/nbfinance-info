@@ -38,7 +38,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('GitHub Pages', visible)
         self.assertIn('IP addresses', visible)
         self.assertIn('security purposes', visible)
-        self.assertIn('Final application processing remains pending', visible)
+        self.assertIn('Operator adoption and publication remain pending', visible)
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No authorisation callback is hosted here', visible)
         self.assertTrue(any(tag == 'a' and attrs.get('href') == 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' for tag, attrs in doc.elements))
@@ -53,7 +53,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('Do not use these drafts for live bank registration', visible)
         self.assertIn('No live banking service is offered here', visible)
         self.assertIn('not a spending allowance', visible)
-        self.assertIn('Final application processing remains pending', visible)
+        self.assertIn('Operator adoption and publication remain pending', visible)
         self.assertFalse(any(tag in ['script', 'form', 'input', 'iframe'] for tag, _ in doc.elements))
 
     def test_every_page_has_safe_metadata_and_local_navigation(self):
@@ -103,7 +103,7 @@ class SiteTests(unittest.TestCase):
                 self.assertEqual(visible.count('Bernhard Slatinsek'), 1)
                 self.assertIn('Operator', visible)
                 self.assertIn('Private household project', visible)
-                self.assertIn('Final application processing remains pending', visible)
+                self.assertIn('Operator adoption and publication remain pending', visible)
                 self.assertIn('Do not use these drafts for live bank registration', visible)
                 self.assertNotIn('Operator identity and final application processing remain pending', source)
                 self.assertNotIn('Operator details are pending', source)
@@ -117,6 +117,73 @@ class SiteTests(unittest.TestCase):
                 doc.feed((ROOT / name).read_text())
                 self.assertIn('security@nbsystems.dev', ' '.join(doc.text))
                 self.assertTrue(any(tag == 'a' and attrs.get('href') == 'mailto:security@nbsystems.dev' for tag, attrs in doc.elements))
+
+    def visible(self, name):
+        doc = Document()
+        doc.feed((ROOT / name).read_text())
+        return ' '.join(' '.join(doc.text).split())
+
+    def test_private_pilot_scope_and_display_lifecycle_are_explicit(self):
+        text = self.visible('privacy.html')
+        for required in ['exactly two own/co-held EUR current accounts', 'before either balance is read',
+                         '30-second input window', 'Refusal or timeout', 'remain visible',
+                         '20 seconds or a key', 'after verified API-session cleanup',
+                         'no financial-result files', 'not guaranteed erasure', '600 seconds',
+                         'bank consent can last longer']:
+            self.assertIn(required, text)
+
+    def test_provider_notices_and_retention_have_separate_scopes(self):
+        text = self.visible('privacy.html')
+        for required in ['7 March 2025', '60 seconds', '15 minutes', '180 days', '30 days',
+                         '17 March 2025', 'indefinite retention', 'not independently audited',
+                         'not a statement that API balance payloads are retained indefinitely']:
+            self.assertIn(required, text)
+        source = (ROOT / 'privacy.html').read_text()
+        for url in ['https://auth.enablebanking.com/privacy', 'https://enablebanking.com/privacy/',
+                    'https://auth.enablebanking.com/terms', 'https://enablebanking.com/data-sharing-consents/']:
+            self.assertIn(url, source)
+
+    def test_contact_handling_is_separate_from_ephemeral_bank_results(self):
+        text = self.visible('privacy.html')
+        for required in ['Purelymail', 'Add Rabbit LLC', 'United States', 'US-East-1',
+                         'one month', 'sender', 'headers', 'Proposed correspondence procedure',
+                         'Article 6(1)(f)', 'Article 6(1)(c)', 'generally one month',
+                         'household exemption is not a blanket exemption',
+                         'any required processing terms and transfer safeguards remain adoption checks']:
+            self.assertIn(required, text)
+
+    def test_usage_is_private_only_and_distinguishes_linking_from_api_authorisation(self):
+        text = self.visible('terms.html')
+        for required in ['exactly two', 'No transactions, payments, card feed',
+                         'does not add the balances together', 'Account Linking is provider whitelisting',
+                         'separate API authorisation', 'does not revoke bank consent',
+                         'No software licence', 'no public banking service', 'no permanent-pricing guarantee']:
+            self.assertIn(required, text)
+
+    def test_public_candidates_do_not_link_to_private_project_or_evidence(self):
+        for name in ['index.html', 'privacy.html', 'terms.html', 'README.md']:
+            source = (ROOT / name).read_text()
+            for forbidden in ['file://', '/home/']:
+                self.assertNotIn(forbidden, source)
+            if name.endswith('.html'):
+                doc = Document()
+                doc.feed(source)
+                for tag, attrs in doc.elements:
+                    if tag not in ['a', 'link']:
+                        continue
+                    target = attrs.get('href', '')
+                    if target.startswith(('https://', 'mailto:', '#')):
+                        continue
+                    self.assertIn(target, ['index.html', 'privacy.html', 'terms.html', 'styles.css'])
+
+    def test_prepared_pages_do_not_claim_live_access_or_public_distribution(self):
+        for name in ['index.html', 'privacy.html', 'terms.html']:
+            text = self.visible(name)
+            self.assertIn('Operator adoption and publication remain pending', text)
+            self.assertIn('Do not use these drafts for live bank registration', text)
+            self.assertIn('4 November 2026', text)
+        self.assertIn('not a public banking service', self.visible('index.html'))
+        self.assertIn('synthetic data only', self.visible('index.html'))
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Draft usage information for nbfinance, a private software prototype. No public banking service is offered.">
+  <meta name="description" content="Usage review draft for nbfinance's private, manually operated two-account balance pilot. No public banking service is offered.">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-src 'none'; object-src 'none'">
   <title>Usage draft · nbfinance</title>
@@ -14,14 +14,44 @@
   <header><a class="wordmark" href="index.html">nbfinance</a><nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="privacy.html">Privacy draft</a><a href="terms.html" aria-current="page">Usage draft</a></nav></header>
   <main id="main">
     <p class="eyebrow">Scope and limits</p>
-    <h1>Usage information.<br>Draft, not final service terms.</h1>
-    <aside class="notice" aria-label="Draft status"><strong>Draft — preparation only</strong><p>Do not use these drafts for live bank registration. Final application processing remains pending. The public privacy/security contact is approved, but these notes do not establish a public banking service or a final agreement for live account access.</p></aside>
+    <h1>Usage information.<br>A private pilot, not a public service.</h1>
+    <aside class="notice" aria-label="Draft status"><strong>Draft — operator review pending</strong><p>Operator adoption and publication remain pending. Do not use these drafts for live bank registration. These notes describe the intended private configuration, not a connected bank service or permission to access an account. Verification of this pilot has used synthetic data only.</p></aside>
     <section><h2>Operator</h2><p>Bernhard Slatinsek · Private household project.</p></section>
-    <section><h2>Information-only website</h2><p>No live banking service is offered here. This website publishes general project information; it has no user registration, bank login, payment initiation, account-data upload, hosted finance dashboard or application-download flow.</p><p>The private application is a separate prototype. No account access or payment is authorised by viewing these pages.</p></section>
-    <section><h2>Prototype limitations</h2><p>Development and verification currently use synthetic data. Results are not a guarantee that a particular bank feed is complete, current or correctly mapped. Live integrations, device deployment and secure transfer need their own verification.</p><p>A booked account balance is not a spending allowance. Unconnected card obligations, pending transactions, fixed costs and a reserve can make the amount actually available to spend lower. Do not infer a complete household budget from a partial view.</p><p>These pages do not provide personal financial or investment advice.</p></section>
-    <section><h2>Keep sensitive information private</h2><p>Do not submit passwords, PINs, TANs, card numbers, account identifiers, financial snapshots, API keys or authorisation codes to this public website, repository or any public discussion. This information site is not a bank-authorisation callback.</p><p>Any future bank authorisation must be an explicit action in the separately configured official provider and bank flow.</p></section>
-    <section><h2>Finalisation before live use</h2><p>The operator must review and approve the actual service scope, identity/contact information, provider configuration, privacy description and applicable usage terms before using the project with live bank data. No account access, billing or provider acceptance is promised by this draft.</p><p>No software licence for the private finance application is granted by this information website.</p></section>
+    <section>
+      <h2>Private purpose</h2>
+      <p>No live banking service is offered here. There is no public banking service, customer registration, hosted financial dashboard, account-data upload, application download or bank callback on this website. Reading these pages creates no bank authorisation, payment approval or click-through contract.</p>
+      <p>The application is for its operator's private household use with exactly two confirmed own/co-held EUR current accounts, one manually initiated inspection at a time. It is not for business use, accounts merely visible under a power of attorney or unrelated people's accounts. Respect co-holders' information and bank permissions; login visibility is not proof of ownership or API eligibility.</p>
+      <p>No transactions, payments, card feed, balance total, spending-allowance calculation, financial-result files, scheduled polling, background service or phone/widget sync are included. The application does not add the balances together.</p>
+    </section>
+    <section>
+      <h2>Provider conditions and separate approvals</h2>
+      <p>Enable Banking's <a href="https://enablebanking.com/terms/" rel="noopener noreferrer">Control Panel/API Terms</a> describe restrictions for private/evaluation use of linked own accounts. There is no guarantee of two-account admission, joint-account eligibility or unrestricted use, and no permanent-pricing guarantee. The <a href="https://auth.enablebanking.com/terms" rel="noopener noreferrer">API End-User terms</a>, also referenced by the provider at <a href="https://tilisy.enablebanking.com/terms" rel="noopener noreferrer">tilisy.enablebanking.com/terms</a>, and the bank's terms govern their respective services. Read the current terms in the actual official flow; this page does not replace them.</p>
+      <p>Account Linking is provider whitelisting, not the application's account-access consent. It can itself involve bank authorisation in the official provider/bank interface. A later application request needs separate API authorisation. Application registration, linking, and a one-shot balances request are not approved merely by accepting the wording on this website.</p>
+      <p>The operator must separately approve the configuration and each live attempt, complete the official bank/provider authentication and account selection, and privately confirm both full IBANs before the application reads either balance. If identity, routing, account count, currency, scope, URL or provider requirements differ, stop rather than bypass a check. Synthetic tests do not prove actual bank delivery or live redirect acceptance.</p>
+    </section>
+    <section>
+      <h2>What a balance does not mean</h2>
+      <p>A booked balance is not a spending allowance. Card obligations are excluded and unknown, not zero. Pending items, overdrafts, reserves, fixed costs and timing differences can change what is safe to spend. No complete household budget or investment/financial advice is supplied.</p>
+      <p>Source dates and retrieval times are separate. A recent retrieval does not prove a fresh source. Missing, partial, ambiguous or conflicting data is an error, not zero. There is no guarantee of availability, coverage, completeness or freshness. Resolve discrepancies through the official bank channels.</p>
+    </section>
+    <section>
+      <h2>Private local operation</h2>
+      <p>Use a trusted foreground terminal without recording/sharing and an owner-operated official browser. Keep bank information, screenshots, callbacks, tokens, PINs/TANs and signing keys out of AI tools, email, Git, public pages and issue trackers.</p>
+      <p>The pre-read account confirmation shows both full IBANs with a 30-second input window. Answering, refusing or timing out does not itself clear the screen; it can remain visible during subsequent reads or session cleanup until a result replaces it or the program exits. Only the complete result is released after verified session cleanup, then shown for 20 seconds or a key.</p>
+      <p>The pilot writes no financial-result archive, but this is not secure erasure. Signing-key files persist separately. Screenshots, recording terminals, clipboard/browser histories, swap/crash dumps, same-user/root access and abrupt failure remain risks. The 30-second clipboard handoff does not erase another clipboard manager's history. See the <a href="privacy.html">privacy draft</a> for data categories and third-party processing.</p>
+    </section>
+    <section>
+      <h2>Ending access and failures</h2>
+      <p>The requested API session is at most 600 seconds, capped by the bank catalog; the callback window is separately 300 seconds. Bank consent can last longer. A complete result requires a deletion acknowledgement and a separate exact-session readback showing closed/not found. No automatic retry loops are included.</p>
+      <p>Session closure does not revoke bank consent, remove provider whitelisting or prove legal erasure. An error, missing session ID or process interruption is not proof of closure. Check uncertain status privately through official provider/bank controls, without sending raw errors or identifiers to chat. The <a href="https://enablebanking.com/data-sharing-consents/" rel="noopener noreferrer">provider's sharing controls</a> and the bank's channels handle their respective consents.</p>
+    </section>
+    <section>
+      <h2>Costs, changes and contact</h2>
+      <p>These notes authorise no fee, paid activation, subscription, billing agreement, installation or public distribution. Unexpected costs, contracts or wider requirements need a separate decision. Existing bank/provider conditions are not cancelled or priced by nbfinance.</p>
+      <p>No software licence for the private application is granted here. These limits do not waive mandatory statutory rights or create a blanket liability exclusion. Wider users, transactions, a card feed, persistent financial storage or sync would need a new technical/privacy review before use.</p>
+      <p>Privacy/security contact: <a href="mailto:security@nbsystems.dev">security@nbsystems.dev</a>. Send only a non-sensitive description, not account data, credentials or financial exports. Any applicable identity/contact/site disclosures and the proposed contact procedures still require review and operator adoption before these drafts are used as live notices.</p>
+    </section>
   </main>
-  <footer><span>Draft updated 15 October 2026</span><a href="mailto:security@nbsystems.dev">Privacy/security: security@nbsystems.dev</a><a href="privacy.html">Read the privacy draft</a></footer>
+  <footer><span>Review draft updated 4 November 2026</span><a href="mailto:security@nbsystems.dev">Privacy/security: security@nbsystems.dev</a><a href="privacy.html">Read the privacy draft</a></footer>
 </body>
 </html>
